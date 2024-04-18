@@ -253,27 +253,39 @@ in IPv4 click the "+" button to add a new port forwarding rule
 - Select `VM-1` and right click and then select `Settings`
 - Navigate to Network
 - Checked Enable Network Adapter and Attached to NAT Network
-- and then press ok
-- do same thing to `VM-2`
+- And then press ok
+- Do same thing to `VM-2`
 
 #### **_Verification_**
 
 To Verify your Port Forwarding is work, you can try accessing VM from your device using SSH
 
-##### 1. open `bash` or `powershell` from your device
+##### 1. Open `bash` or `powershell` from your device
 
-##### 2. make sure that your VM is run/start
+##### 2. Make sure that your VM is run/start
 
-##### 3. follow this command to access your web-server VM:
+##### 3. Follow this command to access your web-server VM:
 
 ```shell
 ssh iyesss@localhost -p 2222
 ```
 
-##### 4. do same thing to access your db-server VM with different port (in this case, port 2224):
+##### 4. Do same thing to access your db-server VM with different port (in this case, port 2224):
 
 ```shell
 ssh iyesss@localhost -p 2224
 ```
 
-##### 5. If it's work, you can access your VM from `bash` or `powershell` on your device
+##### 5. If it's work, you can access your VM from `bash` or `powershell` on your device and you can ping each VM with this command:
+
+**_From VM-1_**
+
+```shell
+ping 10.0.2.11
+```
+
+**_From VM 2_**
+
+```shell
+ping 10.0.2.17
+```
