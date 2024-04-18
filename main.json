@@ -156,5 +156,14 @@
       "cari listen_address dan ubah dari 'localhost' menjadi ip address VM (dalam kasus ini VM-2 (db-server)) 10.0.2.11", 
       "simpan perubahan dan restart postgres dengan perintah 'sudo systemctl restart postgresql'"
     ]
+  }, 
+  "install-NGINX-pada-VM-1-WEB-SERVER": {
+    "installation-step": [
+			"update package list dengan perintah 'sudo apt update'",
+			"install NGINX dengan perintah 'sudo apt install NGINX'",
+			"jalankan NGINX dengan perintah 'sudo systemctl start NGINX'",
+			"aktifkan NGINX pada saat booting degan perintah 'sudo systemctl enable NGINX'", 
+      "cek apakah NGINX sudah berjalan dengan perintah 'curl localhost'"
+		]
   }
 }
