@@ -1,0 +1,59 @@
+{
+  "cek-virtualbox": "ada",
+  "instalasi-ubuntu-20.04": {
+    "download-ISO-file": "download file iso pada https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-live-server-amd64.iso",
+    "membuat-virtual-machine-pada-virtualbox": {
+      "membuat-virtual-machine": [
+        "klik 'Machine' pada bagian kiri atas virtualbox",
+        "plih New.. untuk membuat virtual machine baru"
+      ],
+      "konfigurasi-nama-virtual-machine-dan-memilih-OS": {
+        "Name": "db-server",
+        "Folder": "D:/virtual-machine/.....",
+        "ISO Image": "ubuntu-22.04.4-live-server-amd64.iso"
+      },
+      "modifikasi-default-username-password-dan-hostname": {
+        "Username": "db-server",
+        "Password": "aldiyes17032002",
+        "Hostname": "db-server"
+      },
+      "konfigurasi-virtual-machine-hardware": {
+        "Base-Memory": "4000 MB",
+        "Processor": "2",
+        "Virtual-Hard-disk": "25 GB"
+      },
+      "menjalankan-ubuntu-server-pertama-kali": {
+        "Language": "English",
+        "Keyboard-Configuration": "English (US)",
+        "Type-Install-Ubuntu": "Ubuntu Server",
+        "Network-Connection": "DHCPv4: 10.0.2.15/24",
+        "Ubuntu-Archive-miror": "http://id.archive.ubuntu.com/ubuntu/"
+      },
+      "profile-setup": {
+        "Name": "Aldiyes Paskalis Birta",
+        "Server-Name": "iyesss",
+        "Username": "iyesss",
+        "Password": "aldiyes17032002"
+      }
+    }
+  },
+  "setting-ip-address": {
+    "refresh-repository": "jalankan perintah 'sudo apt update & sudo apt upgrade -y'",
+    "setup-ip-address-pada-netplan": [
+      "masuk kedalam configurasi netplan dengan perintah 'sudo nano /etc/netplan/00-installer-config.yaml",
+      "massukan konfigurasi untuk VM dan setting ip-address=[10.0.2.17/24]",
+      "setelah selesai konfigurasi, simpan perubahan dengan klik 'ctrl+x' -> 'y' -> 'enter'",
+      "jalankan perintah 'sudo netplan apply'",
+      "jika terdapat 'error: Cannot call Open vSwitch: ovsdb-server.service  is not running'",
+      "restart ubuntu dengan perintah 'sudo reboot'"
+    ]
+  },
+  "clone-virtual-machine": [
+    "buka virtualbox",
+    "klik pada VM demo-db yang telah dibuat",
+    "klik kanan lalu pilih clone (ctrl + o)",
+    "masukkan name_machine dengan nama 'demo-webserver'",
+    "klik 'next' lalu pilih 'full clone'",
+    "kemudian klik finish"
+  ]
+}
