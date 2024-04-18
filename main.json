@@ -138,5 +138,23 @@
 			"keluar dari postgresql dengan perintah '<back-slash>q'",
 			"jalankan perintah 'psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb' untuk mengakses database next_todos_pgdb dengan menggunakan user iyesss"
 		]
-	}
+	}, 
+  "memberikan-hak-akses-pada-postgresql-agar-dapat-diakses-secara-remote": {
+    "pg_hba.cong": [
+      "menacari pg_hba.conf dengan perintah 'sudo find / -name pg_hba.conf'", 
+      "masuk ke pg_hba.conf dengan perintah 'sudo nano /etc/postgresql/16/main/pg_hba.conf'", 
+      "cari 'IPv4 local connections' dan tambahkan konfigurasi dibawha ini",
+      "TYPE = host", 
+      "DATABASE = all",
+      "USER = all",
+      "ADDRESS = 10.0.2.17/24",
+      "METHOD = md5"
+    ], 
+    "postgres.conf": [
+      "menacari pg_hba.conf dengan perintah 'sudo find / -name postgres.conf'", 
+      "masuk ke postgres.conf degnan perintah 'sudo nano /etc/postgres/16/main/postgres.conf'",
+      "cari listen_address dan ubah dari 'localhost' menjadi ip address VM (dalam kasus ini VM-2 (db-server)) 10.0.2.11", 
+      "simpan perubahan dan restart postgres dengan perintah 'sudo systemctl restart postgresql'"
+    ]
+  }
 }
