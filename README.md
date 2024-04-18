@@ -6,16 +6,16 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
   <img src="https://belajar.usd.ac.id/pluginfile.php/1/theme_moove/logo/1705975785/logo_usd.png" alt="Sanata Dharma University">
 </p>
 
-## 🔎 Overview
+## 🔎 **Overview**
 
 This guide walks you through setting up a Ubuntu Server virtual machine (VM) using VirtualBox.
 
-## 🛹 Prerequisites
+## 🛹 **Prerequisites**
 
 - VirtualBox installed on your system. You can download it from the official website [here](https://www.virtualbox.org/wiki/Downloads)
 - A recent Ubuntu Server ISO image. Download it from the Ubuntu website [here](https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-live-server-amd64.iso)
 
-### ⚙️ Setting Up the Virtual Machine
+### ⚙️ **Setting Up the Virtual Machine**
 
 #### 1. Create a New VM
 
@@ -39,7 +39,7 @@ Assign a suitable amount of memory (RAM) and processor to your VM. A good starti
 
 Choose "Create a virtual hard disk now" and allocate Disk Size for your VM.
 
-### 🖥️ Installing Ubuntu Server
+### 🖥️ **Installing Ubuntu Server**
 
 #### 1. Start the VM
 
@@ -66,7 +66,7 @@ Follow the on-screen instructions to complete the Ubuntu Server installation. He
 
 After following the prompts, the installation will proceed. Once finished, it will prompt you to restart the VM
 
-### 🌕 Post-Installation (Optional)
+### 🌕 **Post-Installation (Optional)**
 
 #### Update and Upgrade
 
@@ -76,7 +76,7 @@ Once booted into your new Ubuntu Server VM, connect to it using VirtualBox conso
 sudo apt update & sudo apt upgrade -y
 ```
 
-## 🛜 Editing Netplan Configuration
+## 🛜 **Editing Netplan Configuration**
 
 #### 1. Locate Netplan Config File
 
@@ -92,7 +92,7 @@ The configuration file uses YAML syntax. Locate the section for your network int
 
 **Here's an example configuration for a static IP:**
 
-```shell
+```tsx
 network:
   version: 2
   ethernets:
@@ -126,3 +126,66 @@ Replace the placeholders with your desired values:
 ```shell
 sudo netplan apply
 ```
+
+## 🧒 **Setting Hostname with `hostnamectl`**
+
+**_Permanent Hostname Change_**
+
+#### 1. Set the hostname with `hostnamectl`:
+
+```shell
+sudo hostnamectl set-hostname <new_hostname>
+```
+
+replace `<new_hostname>` with your new `hostname`
+
+#### 2. Update the /etc/hostname file:
+
+```shell
+sudo nano /etc/hostname
+```
+
+- Replace the existing hostname with your new hostname in this file.
+- Save and close the file.
+
+#### 3. (Optional) Update the /etc/hosts file (recommended for some applications):
+
+```shell
+sudo nano /etc/hosts
+```
+
+Edit the line that starts with 127.0.1.1. It should look like this:
+
+```
+127.0.1.1   localhost <old_hostname>
+```
+
+- Replace `<old_hostname>` with your new `hostname`.
+- Save and close the file.
+
+#### 4. Reboot your system for the changes to take full effect.
+
+## 🖥️➡️🖥️ **Cloning a Virtual Machine with VirtualBox**
+
+### Cloning Process
+
+#### 1. Select the VM
+
+Open VirtualBox and choose the VM you want to clone from the list in the main window
+
+#### 2. Right-Click and Clone
+
+Right-click on the selected VM and select "Clone" from the context menu or you can press `ctrl+o`
+
+#### 3. Clone Settings
+
+In the "Clone Virtual Machine" window, you can customize some settings
+
+- **Name:** Provide a new name for the cloned VM. This helps differentiate it from the original.
+- **Full Clone:** This creates a complete independent copy of the VM, including the virtual disk. This is recommended for most cases.
+- **Linked Clone:** This creates a reference copy that shares the virtual disk with the original VM. Changes in the linked clone will affect the original and vice versa. Use this option cautiously, as it saves space but maintains a dependency.
+- **Location:** Optionally, specify a different location on your disk to store the cloned VM's files.
+
+#### 4. Start Cloning
+
+Once you've configured the settings, click "Clone" to start the cloning process. This may take some time depending on the size of the original VM
