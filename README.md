@@ -496,3 +496,41 @@ After make some changes inside pg_hba configure and postgres configure, you need
 ```shell
 sudo systemctl restart postgresql
 ```
+
+## 📱 **Install NGINX in VM 1 `web-server`**
+
+#### **_Installation_**
+
+#### 1. Update package lists:
+
+```shell
+sudo apt update
+```
+
+#### 2. Install NGINX:
+
+```shell
+sudo apt install nginx
+```
+
+#### 3. Start NGINX:
+
+```shell
+sudo systemctl start nginx
+```
+
+#### 4. Enable NGINX to Start on Boot:
+
+```shell
+sudo systemctl enable nginx
+```
+
+#### **_Verification_**
+
+For verify your NGINX is running or not, you can run this command:
+
+```shell
+curl localhost
+```
+
+If NGINX is running and configured to use the default port 80, then curl localhost should return the default NGINX welcome page, indicating successful verification
