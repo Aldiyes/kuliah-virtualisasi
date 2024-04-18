@@ -41,7 +41,7 @@
 		"refresh-repository": "jalankan perintah 'sudo apt update & sudo apt upgrade -y'",
 		"setup-ip-address-pada-netplan": [
 			"masuk kedalam configurasi netplan dengan perintah 'sudo nano /etc/netplan/00-installer-config.yaml",
-			"massukan konfigurasi untuk VM dan setting ip-address=[10.0.2.17/24]",
+			"masukan konfigurasi untuk VM dan setting ip-address=[10.0.2.17/24]",
 			"setelah selesai konfigurasi, simpan perubahan dengan klik 'ctrl+x' -> 'y' -> 'enter'",
 			"jalankan perintah 'sudo netplan apply'",
 			"jika terdapat 'error: Cannot call Open vSwitch: ovsdb-server.service  is not running'",
@@ -75,5 +75,46 @@
 		"masukkan name_machine dengan nama 'db-server'",
 		"klik 'next' lalu pilih 'full clone'",
 		"kemudian klik finish"
-	]
+	],
+	"setting-ip-address-pada-vm-clone": {
+		"refresh-repository": "jalankan perintah 'sudo apt update & sudo apt upgrade -y'",
+		"setup-ip-address-pada-netplan": [
+			"masuk kedalam configurasi netplan dengan perintah 'sudo nano /etc/netplan/00-installer-config.yaml",
+			"masukan konfigurasi untuk VM dan setting ip-address=[10.0.2.11/24]",
+			"setelah selesai konfigurasi, simpan perubahan dengan klik 'ctrl+x' -> 'y' -> 'enter'",
+			"jalankan perintah 'sudo netplan apply'",
+			"jika terdapat 'error: Cannot call Open vSwitch: ovsdb-server.service  is not running'",
+			"reboot ubuntu dengan perintah 'sudo reboot'"
+		]
+	},
+	"konfigurasi-secara-keselurhan": {
+		"konfigurasi-vm-1": {
+			"username": "iyesss",
+			"hostname": "web-server",
+			"ip-address": "10.0.2.17",
+			"submask": "24"
+		},
+		"konfigurasi-vm-2": {
+			"username": "iyesss",
+			"hostname": "db-server",
+			"ip-address": "10.0.2.11",
+			"submask": "24"
+		}
+	},
+	"Setting-Up-Port-Forwarding": {
+		"buka-virtualbox-network-manager": "pada bagian Tools, click kanan dan pilih tools, kemudian pilih Network Manager",
+		"membuat-nat-network-baru": "Pilih NAT Network dan click Create pada bagian atas. Itu akan membuat konfigurasi NAT Network baru",
+		"membuat-roles-untuk-port-forwarding": [
+			"buat name untuk web-server dengan host port 2222 dan guest port 22, dan masukkan ip address VM-1 pada Guest IP",
+			"buat name untuk db-server dengan host port 2224 dan guest port 22, dan masukkan ip address VM-1 pada Guest IP"
+		], 
+    "setting-network-pada-vm-menjadi-nat-network": [
+      "pilih VM-1, click kanan dan pilih settings...", 
+      "navigasikan ke bagian Network", 
+      "checklist pada bagian Enable Network Adapter dan attach ke NAT Network", 
+      "setelah itu, klik OK", 
+      "lakukan hal yang sama pada VM-2", 
+      "jika sudah selesai vm dapat diakses melalui local komputer utama dengan menggunakan perintah `ssh iyesss@localhost -p 2222`"
+    ]
+	}
 }
