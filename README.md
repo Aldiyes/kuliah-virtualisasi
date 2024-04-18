@@ -289,3 +289,143 @@ ping 10.0.2.11
 ```shell
 ping 10.0.2.17
 ```
+
+## 🏬 **Install And Configure PostgreSQL in VM 2 `db-server`**
+
+#### **_Installation Steps:_**
+
+##### 1. Update Package Lists:
+
+```shell
+sudo apt update
+```
+
+##### 2. Install [PostgreSQL](https://www.postgresql.org/download/linux/ubuntu/) Packages
+
+- Automated repository configuration:
+
+```shell
+sudo apt install -y postgresql-common
+sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+```
+
+- Import the repository signing key:
+
+```shell
+sudo apt install curl ca-certificates
+sudo install -d /usr/share/postgresql-common/pgdg
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+```
+
+- Create the repository configuration file:
+
+```shell
+sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+```
+
+- Install the latest version of PostgreSQL:
+  If you want a specific version, use 'postgresql-16' or similar instead of 'postgresql'
+
+```shell
+sudo apt -y install postgresql
+```
+
+##### 3. Start the PostgreSQL Service:
+
+After installation, start the PostgreSQL service with:
+
+```shell
+sudo systemctl start postgresql
+```
+
+##### 4. Verify Service Status:
+
+Use the following command to check if the PostgreSQL service is running:
+
+```shell
+sudo systemctl status postgresql
+```
+
+---
+
+#### **_Configure PostgreSQL_**
+
+##### 1. Switch user to postgres
+
+```shell
+sudo su - postgres
+```
+
+##### 2. Connect to the PostgreSQL server using the `psql` client utility
+
+```shell
+psql
+```
+
+##### 3. Add password into `posetgres` user:
+
+```mysql
+ALTER USER postgres WITH ENCRYPTED PASSWORD "<your_password>";
+```
+
+##### 4. Create user from the start with CREATEROLE and CREATEDB permissions
+
+```mysql
+CREATE ROLE <user_name> PASSWORD '<password>' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+```
+
+| Command     | Description                                                                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| NOSUPERUSER | The user being created does not have superuser rights (like the postgres user, recommended)                                    |
+| CREATEDB    | The user being created can create databases which it will own                                                                  |
+| CREATEROLE  | The user being created can create roles (logins) for objects it owns or has specific access to (like databases it has created) |
+| INHERIT     | The user being created inherits some default options, optional                                                                 |
+| LOGIN       | The user being created has the right to log in                                                                                 |
+
+**Here's an example configuration for create user:**
+
+```mysql
+CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+```
+
+##### 4. Check if user being created successfully
+
+```mysql
+\du
+```
+
+##### 5. Create database
+
+```mysql
+CREATE DATABASE <database_name>;
+```
+
+example:
+
+```mysql
+CREATE DATABASE next_todos_pgdb;
+```
+
+##### 6. Grant privileges for user `iyesss`
+
+```mysql
+GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <user_name>;
+```
+
+example:
+
+```mysql
+GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss;
+```
+
+##### 7. Exit from postgres and login via `iyesss`
+
+```mysql
+\q
+```
+
+on postgress root:
+
+```mysql
+psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb
+```

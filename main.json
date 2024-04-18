@@ -101,20 +101,42 @@
 			"submask": "24"
 		}
 	},
-	"Setting-Up-Port-Forwarding": {
+	"setup-Port-Forwarding": {
 		"buka-virtualbox-network-manager": "pada bagian Tools, click kanan dan pilih tools, kemudian pilih Network Manager",
 		"membuat-nat-network-baru": "Pilih NAT Network dan click Create pada bagian atas. Itu akan membuat konfigurasi NAT Network baru",
 		"membuat-roles-untuk-port-forwarding": [
 			"buat name untuk web-server dengan host port 2222 dan guest port 22, dan masukkan ip address VM-1 pada Guest IP",
 			"buat name untuk db-server dengan host port 2224 dan guest port 22, dan masukkan ip address VM-1 pada Guest IP"
-		], 
-    "setting-network-pada-vm-menjadi-nat-network": [
-      "pilih VM-1, click kanan dan pilih settings...", 
-      "navigasikan ke bagian Network", 
-      "checklist pada bagian Enable Network Adapter dan attach ke NAT Network", 
-      "setelah itu, klik OK", 
-      "lakukan hal yang sama pada VM-2", 
-      "jika sudah selesai vm dapat diakses melalui local komputer utama dengan menggunakan perintah `ssh iyesss@localhost -p 2222`"
-    ]
+		],
+		"setting-network-pada-vm-menjadi-nat-network": [
+			"pilih VM-1, click kanan dan pilih settings...",
+			"navigasikan ke bagian Network",
+			"checklist pada bagian Enable Network Adapter dan attach ke NAT Network",
+			"setelah itu, klik OK",
+			"lakukan hal yang sama pada VM-2",
+			"jika sudah selesai vm dapat diakses melalui local komputer utama dengan menggunakan perintah `ssh iyesss@localhost -p 2222`"
+		]
+	},
+	"install-dan-konfigurasi-postgresql-pada-VM-2-DB-SERVER": {
+		"installation-step": [
+			"update package list dengan perintah 'sudo apt update'",
+			"install postgresql pada ubuntu-server package dengan mengikuti perintah pada link berikut https://www.postgresql.org/download/linux/ubuntu/",
+			"jalankan postgresql dengan perintah 'sudo systemctl start postgresql'",
+			"cek apakah postgresql sudah berjalan atau belum dengan perintah 'sudo systemctl status postgresql'"
+		],
+		"konfigurasi-postgresql": [
+			"ganti user ke postgres dengan perintah 'sudo su - postgres'",
+			"masuk ke postgresql server dengan perintah 'psql'",
+			"membuat password pada superuser (dalam kasus ini, postgres adalah superuser)",
+			"jalankan perntah 'ALTER USER postgres WITH ENCRYPTED PASSWORD 'aldiyes17032002';'",
+			"membuat user baru dengan hak istimewa bisa membuat role dan bisa membuat database",
+			"jalankan perintah 'CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;'",
+			"cek apakah user sudah berhasil dibuat dengan perintah '<back-slash>du'",
+			"buat database baru dengan perintah 'CREATE DATABASE next_todos_pgdb;'",
+			"berikan hak istimewah kepada user iyesss agar bisa mengakses database next_todos_pgdb",
+			"jalankan perintah 'GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss'",
+			"keluar dari postgresql dengan perintah '<back-slash>q'",
+			"jalankan perintah 'psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb' untuk mengakses database next_todos_pgdb dengan menggunakan user iyesss"
+		]
 	}
 }
