@@ -167,7 +167,7 @@ Edit the line that starts with 127.0.1.1. It should look like this:
 
 ## 🖥️➡️🖥️ **Cloning a Virtual Machine with VirtualBox**
 
-### Cloning Process
+**_Cloning Process_**
 
 #### 1. Select the VM
 
@@ -177,15 +177,8 @@ Open VirtualBox and choose the VM you want to clone from the list in the main wi
 
 Right-click on the selected VM and select "Clone" from the context menu or you can press `ctrl+o`
 
-#### 3. Clone Settings
-
-In the "Clone Virtual Machine" window, you can customize some settings
+#### 3. Set VM name and path
 
 - **Name:** Provide a new name for the cloned VM. This helps differentiate it from the original.
-- **Full Clone:** This creates a complete independent copy of the VM, including the virtual disk. This is recommended for most cases.
-- **Linked Clone:** This creates a reference copy that shares the virtual disk with the original VM. Changes in the linked clone will affect the original and vice versa. Use this option cautiously, as it saves space but maintains a dependency.
-- **Location:** Optionally, specify a different location on your disk to store the cloned VM's files.
-
-#### 4. Start Cloning
-
-Once you've configured the settings, click "Clone" to start the cloning process. This may take some time depending on the size of the original VM
+- **Path:** Specify where you want to allocate the VM
+- In clone type `choose full` clone and click `finish`
