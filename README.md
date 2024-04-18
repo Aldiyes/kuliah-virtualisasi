@@ -6,9 +6,19 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
   <img src="https://belajar.usd.ac.id/pluginfile.php/1/theme_moove/logo/1705975785/logo_usd.png" alt="Sanata Dharma University">
 </p>
 
-## 🔎 **Overview**
+## 🔎 **Features**
 
-This guide walks you through setting up a Ubuntu Server virtual machine (VM) using VirtualBox.
+- Setup Virtual Machine
+- Installing Ubuntu Server
+- Editing Netplan Configure
+- Setting Hostname
+- Clonig A Virtual Machine
+- Port Forwarding
+- Setup VM-1 to web server and VM-2 to db server
+- Install postgresql for db server
+- Configure postgresql
+- Install nginx for web server
+- Configure nginx
 
 ## 🛹 **Prerequisites**
 
@@ -182,3 +192,88 @@ Right-click on the selected VM and select "Clone" from the context menu or you c
 - **Name:** Provide a new name for the cloned VM. This helps differentiate it from the original.
 - **Path:** Specify where you want to allocate the VM
 - In clone type `choose full` clone and click `finish`
+
+## 🦖 Configure VM
+
+**_Virtual Machine 1_**
+| Name | Value|
+| :---------------- | :----------|
+| `Username` | iyesss |
+| `Hostname` | web-server |
+| `IP address` | 10.0.2.17 |
+| `Submask` | 24 |
+
+**_Virtual Machine 2_**
+| Name | Value |
+| :---------------- | --------- |
+| `Username` | iyesss |
+| `Hostname` | db-server |
+| `IP address` | 10.0.2.11 |
+| `Submask` | 24 |
+
+## ⚙️🛜 **Port Forwarding with NAT Network in VirtualBox**
+
+NAT Network is a VirtualBox networking mode where the host machine acts as a router for the VM. The VM gets a private IP address on the internal network and cannot be directly accessed from the outside world. Port forwarding allows you to bridge this gap and expose specific services running inside your VM to external access.
+
+#### **_Setting Up Port Forwarding_**
+
+##### 1. Open VirtualBox Network Manager
+
+Right-click on `Tools` in the VirtualBox list, click `Tools`and select `Network Manager`. Or you can press `ctrl+H` for shortcut
+
+##### 2. Create New Nat Network
+
+Navigate into NAT Network and click Create at the top. That will be create a new Nat Network
+
+##### 3. Open Port Forwarding
+
+Navigate into NAT Network and click Port Forwading bellow.
+
+##### 4. Add New Rule
+
+in IPv4 click the "+" button to add a new port forwarding rule
+
+##### 5. Define Rule Details:
+
+- **Name:** Provide a descriptive name for the rule (e.g., "Web Server").
+- **Protocol:** Choose the protocol for the traffic (TCP or UDP).
+- **Host Port:** Specify the port number on your host machine that will receive the incoming traffic (e.g., 80 for web traffic).
+- **Guest IP:** Define IP Address for guest
+- **Guest Port:** Define the port number inside your VM where you want to redirect the traffic (e.g., 80 for a web server running on the VM)
+
+**_Here's an example configuration for Port Forwarding Rules:_**
+
+| Name | Protocol | Host IP | Host Port | Guest IP  | Guest Port |
+| ---- | -------- | ------- | --------- | --------- | ---------- |
+| WEB  | TCP      |         | 2222      | 10.0.2.17 | 22         |
+| DB   | TCP      |         | 2224      | 10.0.2.11 | 22         |
+
+##### 6. Setting Up Network in VM
+
+- Select `VM-1` and right click and then select `Settings`
+- Navigate to Network
+- Checked Enable Network Adapter and Attached to NAT Network
+- and then press ok
+- do same thing to `VM-2`
+
+#### **_Verification_**
+
+To Verify your Port Forwarding is work, you can try accessing VM from your device using SSH
+
+##### 1. open `bash` or `powershell` from your device
+
+##### 2. make sure that your VM is run/start
+
+##### 3. follow this command to access your web-server VM:
+
+```shell
+ssh iyesss@localhost -p 2222
+```
+
+##### 4. do same thing to access your db-server VM with different port (in this case, port 2224):
+
+```shell
+ssh iyesss@localhost -p 2224
+```
+
+##### 5. If it's work, you can access your VM from `bash` or `powershell` on your device
