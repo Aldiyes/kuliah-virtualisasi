@@ -133,8 +133,11 @@
 			"jalankan perintah 'CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;'",
 			"cek apakah user sudah berhasil dibuat dengan perintah '<back-slash>du'",
 			"buat database baru dengan perintah 'CREATE DATABASE next_todos_pgdb;'",
+			"masuk kedalam database next_todos_pgdb dengan perintah '<back-slash>c next_todos_pgdb'", 
 			"berikan hak istimewah kepada user iyesss agar bisa mengakses database next_todos_pgdb",
 			"jalankan perintah 'GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss'",
+			"berikan hak istimewah kepada user iyesss agar bisa mengakses schema public",
+			"jalankan perintah 'GRANT ALL ON SCHEMA public TO iyesss'",
 			"keluar dari postgresql dengan perintah '<back-slash>q'",
 			"jalankan perintah 'psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb' untuk mengakses database next_todos_pgdb dengan menggunakan user iyesss"
 		]

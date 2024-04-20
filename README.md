@@ -394,28 +394,30 @@ CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE IN
 \du
 ```
 
-##### 5. Create database
-
-```mysql
-CREATE DATABASE <database_name>;
-```
-
-example:
+##### 5. Create database called next_todos_pgdb
 
 ```mysql
 CREATE DATABASE next_todos_pgdb;
 ```
 
-##### 6. Grant privileges for user `iyesss`
+##### 6. Grant privileges for user `iyesss` to `next_todos_pgdb`
+
+- Navigate inside next_todos_pgdb:
 
 ```mysql
-GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <user_name>;
+\c next_todos_pgdb
 ```
 
-example:
+- Grant privileges on database:
 
 ```mysql
 GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss;
+```
+
+- Grant privileges for schema public:
+
+```mysql
+GRANT ALL ON SCHEMA public TO iyesss;
 ```
 
 ##### 7. Exit from postgres and login via `iyesss`
@@ -428,73 +430,6 @@ on postgress root:
 
 ```mysql
 psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb
-```
-
-## 🖥️↔️🖥️ **Enable The Connection PostgreSQL To Remote Server**
-
-If you want to access PostgreSQL from remote server, you need make some changes inside `pg_hba.conf` and `postgresql.conf`. Here some step that you need to follow:
-
-#### **_make some changes for `pg_hba.conf` and `postgresql.conf`_**
-
-##### 1. Find `pg_hba.conf`:
-
-By following this command will return `pg_hba.conf` located is:
-
-```shell
-sudo find / -name pg_hba.conf
-```
-
-##### 2. Locate `pg_hba.conf` file:
-
-In this case, my `pg_hba.conf` is inside `/etc/postgresql/16/main`. Use your preferred text editor (e.g., `nano` or `vim`) to edit the file:
-
-```shell
-sudo nano /etc/postgresql/16/main/pg_hba.conf
-```
-
-##### 3. Find `# IPv4 local connections` and added some configure:
-
-- scroll down until you find #listen_addresses
-- add this configure bellow:
-  |TYPE|DATABASE|USER|ADDRESS|METHOD|
-  |----|-------|------|------|-----|
-  |host|all|all|<your remote ip address>/<submask>|md5|
-
-Example:
-|TYPE|DATABASE|USER|ADDRESS|METHOD|
-|----|-------|------|------|-----|
-|host|all|all|10.0.2.17/24|md5|
-
-IP Address `10.0.2.17/24` is my VM-1. After that, save and exit from nano.
-
-##### 4. Find `postgresql.conf`:
-
-By following this command will return `postgresql.conf` located is:
-
-```shell
-sudo find / -name postgresql.conf
-```
-
-##### 5. Locate `postgresql.conf` file:
-
-In this case, my `pg_hba.conf` is inside `/etc/postgresql/16/main`. Use your preferred text editor (e.g., nano or vim) to edit the file:
-
-```shell
-sudo nano /etc/postgresql/16/main/postgresql.conf
-```
-
-##### 6. Find `listen_addresses` and make some change
-
-- Scroll down until you find `#listen_addresses`
-- Change `'localhost'` to your VM IP Address. In this case my IP Address is `10.0.2.11`.
-- Make sure delete comment from listen_addresses (`#`). After that, save and exit
-
-##### 7. restart postgresql:
-
-After make some changes inside pg_hba configure and postgres configure, you need to resart the postgres:
-
-```shell
-sudo systemctl restart postgresql
 ```
 
 ## 📱 **Install NGINX in VM 1 `web-server`**
