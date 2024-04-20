@@ -587,3 +587,111 @@ sudo npm install -g npm@latest
 ```
 
 After that, check one more time your npm version
+
+## 🏬 ↔️ 📱 **Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using [Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
+
+This guide outlines how to establish a connection between VM-1, acting as your `web server`, and VM-2, hosting your `db server`, using Prisma. For `web server`, we use existing project from this [repostory](https://github.com/aldiyespaskalisbirta/next-todos) for NextJs project. **Make sure both of VM is running/start**.
+
+#### **On VM-1 (`WEB-Server`)**
+
+#### 1. Install PM2 Globally:
+
+```shell
+sudo npm install pm2@latest -g
+```
+
+#### 2. Use Git to Fetch Next.js Project from [GitHub](https://github.com/):
+
+```shell
+git clone https://github.com/aldiyespaskalisbirta/next-todos.git
+```
+
+#### 3. Copy .env-example into .env and install package list for NextJs project:
+
+```shell
+cd next-todos
+cp .env.example .env
+npm install
+```
+
+#### 4. Configure .env file:
+
+```shell
+sudo nano .env
+```
+
+For details on next-todos project, please visit the [Documentation](https://github.com/aldiyespaskalisbirta/next-todos) for Step-by-Step Guide.
+
+#### 5. Generate And Migrate Shema Prisma:
+
+```shell
+npx prisma generate
+npx prisma migrate dev
+```
+
+#### 6. Run Next.js Project with PM2 and Serve with NGINX:
+
+```shell
+npm run build
+pm2 start npm --name "next_todos_app" -- start
+```
+
+#### 7. Configure PM2 to Start Automatically:
+
+```shell
+pm2 save
+pm2 startup
+```
+
+#### 8. Configure Nginx to Serve the Next.js Application:
+
+- Create Nginx Configuration File:
+
+```shell
+sudo nano /etc/nginx/sites-available/next_todos
+```
+
+- Configure Nginx:
+
+```shell
+server {
+    listen 80;
+    server_name 10.0.2.17;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+```
+
+- Create a Symbolic Link to Enable the Configuration:
+
+```shell
+sudo ln -s /etc/nginx/sites-available/nextjs-app /etc/nginx/sites-enabled/
+```
+
+- Change Nginx Configure for default file:
+
+```shell
+sudo nano /etc/nginx/sites-available/default
+```
+
+replace `listen` port `80` to other port configure (e.g., 123). After that save and exit.
+
+- Test Nginx Configuration:
+
+```shell
+sudo nginx -t
+```
+
+- Restart Nginx to Apply Changes:
+
+```shell
+sudo systemctl restart nginx
+```
