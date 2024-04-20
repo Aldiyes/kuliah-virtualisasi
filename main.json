@@ -177,5 +177,18 @@
 			"untuk mengecek Node.js version, jalankan perintah 'node --version'",
 			"untuk mengecek npm version, jalankan perintah 'npm --version'"
 		]
-	}
+	},
+	"sambungkan-VM-1-(WEB-Server)-dan-VM-2-(DB-Server)-menggunakan-prisma": [
+		"pada VM-1 (WEB-Server) install pm2 secara global dengan perintah 'sudo npm install pm2@latest -g'",
+		"clone git repository 'git clone https://github.com/aldiyespaskalisbirta/next-todos.git'",
+		"masuk kedalam folder git yang telah di clone dengan perintah 'cd next-todos'",
+		"copy .env-example dengan menggunakan perintah 'cp .env.example .env'",
+		"install package dengan menjalankan perintah 'npm install'",
+		"konfigurasi .env file dengan menjalankan perintah 'sudo nano .env' dan isi variable sesuai dengan ketentuan",
+		"generate dan migrate shchema prisma kedalam database next_todos_pgdb",
+		"jalankan perintah 'npx prisma generate & npx prisma migrate dev'",
+		"jalankan NextJs project dengan menggunakan PM2 dan diterima menggunakan NGINX",
+		"jalankan perintah 'npm run build' kemudian 'pm2 start npm --name 'next_todos_app' -- start'",
+		"konfigurasi PM2 untuk jalan secara otomatis dengan perintah 'pm2 save' kemudian 'pm2 startup'"
+	]
 }
