@@ -695,3 +695,27 @@ sudo nginx -t
 ```shell
 sudo systemctl restart nginx
 ```
+
+## ⚙️🛜📱 **Adding Rules Port Forwarding For NGINX**
+
+| Name    | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------- | -------- | ------- | --------- | ----------- | ---------- |
+| WEB     | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB      | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| `NGINX` | `TCP`    |         | `3000`    | `10.0.2.17` | `80`       |
+
+## ⚡ **Run Next-Todos Project**
+
+#### 1. Navigate to next-todos folder
+
+```shell
+cd next-todos
+```
+
+#### 2. Run the project:
+
+```shell
+npm run dev
+```
+
+#### 3. Open browser and search for `localhost:3000`
