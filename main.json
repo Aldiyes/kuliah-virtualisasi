@@ -133,8 +133,11 @@
 			"jalankan perintah 'CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;'",
 			"cek apakah user sudah berhasil dibuat dengan perintah '<back-slash>du'",
 			"buat database baru dengan perintah 'CREATE DATABASE next_todos_pgdb;'",
+			"masuk kedalam database next_todos_pgdb dengan perintah '<back-slash>c next_todos_pgdb'", 
 			"berikan hak istimewah kepada user iyesss agar bisa mengakses database next_todos_pgdb",
 			"jalankan perintah 'GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss'",
+			"berikan hak istimewah kepada user iyesss agar bisa mengakses schema public",
+			"jalankan perintah 'GRANT ALL ON SCHEMA public TO iyesss'",
 			"keluar dari postgresql dengan perintah '<back-slash>q'",
 			"jalankan perintah 'psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb' untuk mengakses database next_todos_pgdb dengan menggunakan user iyesss"
 		]
@@ -189,6 +192,16 @@
 		"jalankan perintah 'npx prisma generate & npx prisma migrate dev'",
 		"jalankan NextJs project dengan menggunakan PM2 dan diterima menggunakan NGINX",
 		"jalankan perintah 'npm run build' kemudian 'pm2 start npm --name 'next_todos_app' -- start'",
-		"konfigurasi PM2 untuk jalan secara otomatis dengan perintah 'pm2 save' kemudian 'pm2 startup'"
+		"konfigurasi PM2 untuk jalan secara otomatis dengan perintah 'pm2 save' kemudian 'pm2 startup'",
+		"konfigurasi NGINX",
+		"buat file baru didalam /etc/nginx/sites-available dengan perintah 'sudo nano /etc/nginx/sites-available/next_todos'",
+		"konfigurasi server pada nginx",
+		"buat symbolic link untuk mengaktifkan konfigurasi",
+		"jalankan perintah sudo ln -s /etc/nginx/sites-available/nextjs-app /etc/nginx/sites-enabled/",
+		"ganti listen port pada file nginx default agar tidak menangkap port 80",
+		"test konfigurasi nginx degan perintah 'sudo nginx -t'",
+		"jika berhasil, restart nginx dengan peritnah 'sudo systemctl restart nginx'",
+		"tambahkan rule pada port forwarding VirtualBox dengan guest_ip 10.0.2.17 (web-server) host_port 3000 dan guest_port 80",
+		"jalankan next_todos project dengan perintah npm run dev"
 	]
 }
