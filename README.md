@@ -5,7 +5,6 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
 <p align="center">
   <img src="https://belajar.usd.ac.id/pluginfile.php/1/theme_moove/logo/1705975785/logo_usd.png" alt="Sanata Dharma University">
 </p>
-
 ## 🔎 **Features**
 
 - Setup Virtual Machine
@@ -19,6 +18,7 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
 - Configure postgresql
 - Install nginx for web server
 - Configure nginx
+- Install Node.js and npm
 
 ## 🛹 **Prerequisites**
 
@@ -432,6 +432,81 @@ on postgress root:
 psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb
 ```
 
+## 🖥️↔️🖥️ **Enable The Connection PostgreSQL To Remote Server**
+
+If you want to access PostgreSQL from remote server, you need make some changes inside `pg_hba.conf` and `postgresql.conf`. Here some step that you need to follow:
+
+#### **_make some changes for `pg_hba.conf` and `postgresql.conf`_**
+
+##### 1. Find `pg_hba.conf`:
+
+By following this command will return `pg_hba.conf` located is:
+
+```shell
+sudo find / -name pg_hba.conf
+```
+
+##### 2. Locate `pg_hba.conf` file:
+
+In this case, my `pg_hba.conf` is inside `/etc/postgresql/16/main`. Use your preferred text editor (e.g., `nano` or `vim`) to edit the file:
+
+```shell
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+```
+
+##### 3. Find `# IPv4 local connections` and added some configure:
+
+- scroll down until you find #listen_addresses
+- add this configure bellow:
+  |TYPE|DATABASE|USER|ADDRESS|METHOD|
+  |----|-------|------|------|-----|
+  |host|all|all|<your remote ip address>/<submask>|md5|
+
+Example:
+|TYPE|DATABASE|USER|ADDRESS|METHOD|
+|----|-------|------|------|-----|
+|host|all|all|10.0.2.17/24|md5|
+
+IP Address `10.0.2.17/24` is my VM-1. After that, save and exit from nano.
+
+##### 4. Find `postgresql.conf`:
+
+By following this command will return `postgresql.conf` located is:
+
+```shell
+sudo find / -name postgresql.conf
+```
+
+##### 5. Locate `postgresql.conf` file:
+
+In this case, my `pg_hba.conf` is inside `/etc/postgresql/16/main`. Use your preferred text editor (e.g., nano or vim) to edit the file:
+
+```shell
+sudo nano /etc/postgresql/16/main/postgresql.conf
+```
+
+##### 6. Find `listen_addresses` and make some change
+
+- Scroll down until you find `#listen_addresses`
+- Change `'localhost'` to your VM IP Address. In this case my IP Address is `10.0.2.11`.
+- Make sure delete comment from listen_addresses (`#`). After that, save and exit
+
+##### 7. restart postgresql:
+
+After make some changes inside pg_hba configure and postgres configure, you need to resart the postgres:
+
+```shell
+sudo systemctl restart postgresql
+```
+
+## ⚙️🛜🏬 **Adding Rules Port Forwarding For PostgreSQL**
+
+| Name   | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------ | -------- | ------- | --------- | ----------- | ---------- |
+| WEB    | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB     | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| `PGDB` | `TCP`    |         | `5432`    | `10.0.2.11` | `5432`     |
+
 ## 📱 **Install NGINX in VM 1 `web-server`**
 
 #### **_Installation_**
@@ -469,6 +544,15 @@ curl localhost
 ```
 
 If NGINX is running and configured to use the default port 80, then curl localhost should return the default NGINX welcome page, indicating successful verification
+
+## ⚙️🛜📱 **Adding Rules Port Forwarding For NGINX**
+
+| Name    | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------- | -------- | ------- | --------- | ----------- | ---------- |
+| WEB     | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB      | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| PGDB    | TCP      |         | 5432      | 10.0.2.11   | 5432       |
+| `NGINX` | `TCP`    |         | `3000`    | `10.0.2.17` | `80`       |
 
 ## 👽 **Install Node.js and npm**
 
@@ -523,7 +607,7 @@ sudo npm install -g npm@latest
 
 After that, check one more time your npm version
 
-## 🏬 ↔️ 📱 **Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using [Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
+## 🏬 ↔️📱 **Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using [Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
 
 This guide outlines how to establish a connection between VM-1, acting as your `web server`, and VM-2, hosting your `db server`, using Prisma. For `web server`, we use existing project from this [repostory](https://github.com/aldiyespaskalisbirta/next-todos) for NextJs project. **Make sure both of VM is running/start**.
 
@@ -630,14 +714,6 @@ sudo nginx -t
 ```shell
 sudo systemctl restart nginx
 ```
-
-## ⚙️🛜📱 **Adding Rules Port Forwarding For NGINX**
-
-| Name    | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
-| ------- | -------- | ------- | --------- | ----------- | ---------- |
-| WEB     | TCP      |         | 2222      | 10.0.2.17   | 22         |
-| DB      | TCP      |         | 2224      | 10.0.2.11   | 22         |
-| `NGINX` | `TCP`    |         | `3000`    | `10.0.2.17` | `80`       |
 
 ## ⚡ **Run Next-Todos Project**
 
