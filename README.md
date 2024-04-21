@@ -733,7 +733,7 @@ npm run dev
 
 #### 3. Open browser and search for `localhost:3000`
 
-## 🍵 **Install JDK**
+## 🍵 **Install [JDK](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-on-ubuntu-22-04)**
 
 This is the recommended method for most users as it leverages the pre-packaged OpenJDK available through Ubuntu's repositories. OpenJDK is a free and open-source implementation of the Java platform.
 
@@ -758,3 +758,52 @@ For verfiy the installation, you can heck the installed Java version:
 ```shell
 java -version
 ```
+
+## 🧾🍵 **Creating Your First Java Project**
+
+#### 1. Create a Project Directory:
+
+Open a terminal on your server and create a directory to hold your project files
+
+```shell
+mkdir java-projects
+cd java-projects
+```
+
+#### 2. Create a Java Class:
+
+Use a text editor (like `nano` or `vim`) to create a new file named `HelloWorld.java` inside your project directory:
+
+```shell
+sudo nano HelloWorld.java
+```
+
+Paste the following basic code into the file:
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+#### 3. Compile the Java Class:
+
+Navigate to the project directory in your terminal and compile the `.java` file into a `.class` file using the `javac` compiler:
+
+```shell
+javac HelloWorld.java
+```
+
+This will create a `HelloWorld.class` file if compilation is successful.
+
+#### 4. Run the Java Program:
+
+Execute the compiled program using the `java` command followed by the class name:
+
+```shell
+java HelloWorld
+```
+
+You should see the output "Hello, World!" printed on your terminal.
