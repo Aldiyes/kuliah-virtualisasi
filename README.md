@@ -1,4 +1,3 @@
-
 # Hi, I'm Aldiyes! 👋
 
 Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205314132](https://belajar.usd.ac.id/user/profile.php?id=16421)
@@ -11,24 +10,24 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
 
 - [Prerequisites](#-prerequisites)
 - [Virtual Macine](#%EF%B8%8F-setting-up-the-virtual-machine)
-    - [Installing Ubuntu Server](#%EF%B8%8F-installing-ubuntu-server)
-    - [Post-Installation (Optional)](#-post-installation-optional)
-    - [Editing Netplan Configuration](#-editing-netplan-configuration)
-    - [Setting Hostname with hostnamectl](#-setting-hostname-with-hostnamectl)
-    - [Cloning a Virtual Machine with VirtualBox](#%EF%B8%8F%EF%B8%8F%EF%B8%8F-cloning-a-virtual-machine-with-virtualbox)
-    - [Configure VM](#-configure-vm)
-    - [Port Forwarding with NAT Network in VirtualBox](#%EF%B8%8F-port-forwarding-with-nat-network-in-virtualbox)
-    - [Install And Configure PostgreSQL in VM 2 db-server](#-install-and-configure-postgresql-in-vm-2-db-server)
-    - [Enable The Connection PostgreSQL To Remote Server](#%EF%B8%8F%EF%B8%8F%EF%B8%8F-enable-the-connection-postgresql-to-remote-server)
-    - [Adding Rules Port Forwarding For PostgreSQL](#%EF%B8%8F-adding-rules-port-forwarding-for-postgresql)
-    - [Install NGINX in VM 1 web-server](#-install-nginx-in-vm-1-web-server)
-    - [Adding Rules Port Forwarding For NGINX](#%EF%B8%8F-adding-rules-port-forwarding-for-nginx)
-    - [Install Node.js and npm](#-install-nodejs-and-npm)
-    - [Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using Prisma](#-%EF%B8%8F-connect-vm-1-web-server-and-vm-2-db-server-using-prisma)
-    - [Run Next-Todos Project](#-run-next-todos-project)
-    - [Install JDK](#-install-jdk)
-    - [Create First Java Project](#-create-first-java-project)
-- [Docker]()
+  - [Installing Ubuntu Server](#%EF%B8%8F-installing-ubuntu-server)
+  - [Post-Installation (Optional)](#-post-installation-optional)
+  - [Editing Netplan Configuration](#-editing-netplan-configuration)
+  - [Setting Hostname with hostnamectl](#-setting-hostname-with-hostnamectl)
+  - [Cloning a Virtual Machine with VirtualBox](#%EF%B8%8F%EF%B8%8F%EF%B8%8F-cloning-a-virtual-machine-with-virtualbox)
+  - [Configure VM](#-configure-vm)
+  - [Port Forwarding with NAT Network in VirtualBox](#%EF%B8%8F-port-forwarding-with-nat-network-in-virtualbox)
+  - [Install And Configure PostgreSQL in VM 2 db-server](#-install-and-configure-postgresql-in-vm-2-db-server)
+  - [Enable The Connection PostgreSQL To Remote Server](#%EF%B8%8F%EF%B8%8F%EF%B8%8F-enable-the-connection-postgresql-to-remote-server)
+  - [Adding Rules Port Forwarding For PostgreSQL](#%EF%B8%8F-adding-rules-port-forwarding-for-postgresql)
+  - [Install NGINX in VM 1 web-server](#-install-nginx-in-vm-1-web-server)
+  - [Adding Rules Port Forwarding For NGINX](#%EF%B8%8F-adding-rules-port-forwarding-for-nginx)
+  - [Install Node.js and npm](#-install-nodejs-and-npm)
+  - [Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using Prisma](#-%EF%B8%8F-connect-vm-1-web-server-and-vm-2-db-server-using-prisma)
+  - [Run Next-Todos Project](#-run-next-todos-project)
+  - [Install JDK](#-install-jdk)
+  - [Create First Java Project](#-create-first-java-project)
+- [Docker](#-docker)
 
 ## 🛹 **Prerequisites**
 
@@ -58,6 +57,7 @@ Assign a suitable amount of memory (RAM) and processor to your VM. A good starti
 #### 5. Create Virtual Hard Disk:
 
 Choose "Create a virtual hard disk now" and allocate Disk Size for your VM.
+
 ### 🖥️ **Installing Ubuntu Server**
 
 #### 1. Start the VM
@@ -84,6 +84,7 @@ Follow the on-screen instructions to complete the Ubuntu Server installation. He
 #### 4. Complete Installation
 
 After following the prompts, the installation will proceed. Once finished, it will prompt you to restart the VM
+
 ### 🌕 **Post-Installation (Optional)**
 
 #### Update and Upgrade
@@ -93,6 +94,7 @@ Once booted into your new Ubuntu Server VM, connect to it using VirtualBox conso
 ```shell
 sudo apt update & sudo apt upgrade -y
 ```
+
 ## 🛜 **Editing Netplan Configuration**
 
 #### 1. Locate Netplan Config File
@@ -143,6 +145,7 @@ Replace the placeholders with your desired values:
 ```shell
 sudo netplan apply
 ```
+
 ## 🧒 **Setting Hostname with `hostnamectl`**
 
 **_Permanent Hostname Change_**
@@ -180,6 +183,7 @@ Edit the line that starts with 127.0.1.1. It should look like this:
 - Save and close the file.
 
 #### 4. Reboot your system for the changes to take full effect.
+
 ## 🖥️➡️🖥️ **Cloning a Virtual Machine with VirtualBox**
 
 **_Cloning Process_**
@@ -436,6 +440,7 @@ on postgress root:
 ```mysql
 psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb
 ```
+
 ## 🖥️↔️🖥️ **Enable The Connection PostgreSQL To Remote Server**
 
 If you want to access PostgreSQL from remote server, you need make some changes inside `pg_hba.conf` and `postgresql.conf`. Here some step that you need to follow:
@@ -502,13 +507,15 @@ After make some changes inside pg_hba configure and postgres configure, you need
 ```shell
 sudo systemctl restart postgresql
 ```
+
 ## ⚙️🛜🏬 **Adding Rules Port Forwarding For PostgreSQL**
-| Name | Protocol | Host IP | Host Port | Guest IP  | Guest Port |
-| ---- | -------- | ------- | --------- | --------- | ---------- |
-| WEB  | TCP      |         | 2222      | 10.0.2.17 | 22         |
-| DB   | TCP      |         | 2224      | 10.0.2.11 | 22         |
-|`PGDB` | `TCP`      |         | `5432`      | `10.0.2.11` | `5432`         |
- 
+
+| Name   | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------ | -------- | ------- | --------- | ----------- | ---------- |
+| WEB    | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB     | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| `PGDB` | `TCP`    |         | `5432`    | `10.0.2.11` | `5432`     |
+
 ## 📱 **Install NGINX in VM 1 `web-server`**
 
 #### **_Installation_**
@@ -548,13 +555,14 @@ curl localhost
 If NGINX is running and configured to use the default port 80, then curl localhost should return the default NGINX welcome page, indicating successful verification
 
 ## ⚙️🛜📱 **Adding Rules Port Forwarding For NGINX**
-| Name | Protocol | Host IP | Host Port | Guest IP  | Guest Port |
-| ---- | -------- | ------- | --------- | --------- | ---------- |
-| WEB  | TCP      |         | 2222      | 10.0.2.17 | 22         |
-| DB   | TCP      |         | 2224      | 10.0.2.11 | 22         |
-|PGDB | TCP      |         | 5432      | 10.0.2.11 | 5432         |
-|`NGINX` | `TCP`      |         | `3000`      | `10.0.2.17` | `80`         |
- 
+
+| Name    | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------- | -------- | ------- | --------- | ----------- | ---------- |
+| WEB     | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB      | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| PGDB    | TCP      |         | 5432      | 10.0.2.11   | 5432       |
+| `NGINX` | `TCP`    |         | `3000`    | `10.0.2.17` | `80`       |
+
 ## 👽 **Install Node.js and npm**
 
 #### **_Installation_**
@@ -608,7 +616,7 @@ sudo npm install -g npm@latest
 
 After that, check one more time your npm version
 
-##  🏬 ↔️📱 **Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using [Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
+## 🏬 ↔️📱 **Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using [Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
 
 This guide outlines how to establish a connection between VM-1, acting as your `web server`, and VM-2, hosting your `db server`, using Prisma. For `web server`, we use existing project from this [repostory](https://github.com/aldiyespaskalisbirta/next-todos) for NextJs project. **Make sure both of VM is running/start**.
 
@@ -697,9 +705,11 @@ sudo ln -s /etc/nginx/sites-available/nextjs-app /etc/nginx/sites-enabled/
 ```
 
 - Change Nginx Configure for default file:
+
 ```shell
 sudo nano /etc/nginx/sites-available/default
 ```
+
 replace `listen` port `80` to other port configure (e.g., 123). After that save and exit.
 
 - Test Nginx Configuration:
@@ -714,7 +724,6 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-
 ## ⚡ **Run Next-Todos Project**
 
 #### 1. Navigate to next-todos folder
@@ -722,6 +731,7 @@ sudo systemctl restart nginx
 ```shell
 cd next-todos
 ```
+
 #### 2. Run the project:
 
 ```shell
@@ -734,7 +744,7 @@ npm run dev
 
 This is the recommended method for most users as it leverages the pre-packaged OpenJDK available through Ubuntu's repositories. OpenJDK is a free and open-source implementation of the Java platform.
 
-#### ***Instalation***
+#### **_Instalation_**
 
 #### 1. Update package lists:
 
@@ -748,13 +758,14 @@ sudo apt update
 sudo apt install default-jdk
 ```
 
-#### ***Verification***
+#### **_Verification_**
 
 For verfiy the installation, you can heck the installed Java version:
 
- ```shell
+```shell
 java -version
- ```
+```
+
 ## 🧾🍵 **Create First Java Project**
 
 #### 1. Create a Project Directory:
@@ -803,6 +814,7 @@ java HelloWorld
 ```
 
 You should see the output "Hello, World!" printed on your terminal.
+
 ## 🐳 **Docker**
 
-***There is no documentation yet***
+**_There is no documentation yet_**
