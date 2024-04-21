@@ -5,20 +5,29 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
 <p align="center">
   <img src="https://belajar.usd.ac.id/pluginfile.php/1/theme_moove/logo/1705975785/logo_usd.png" alt="Sanata Dharma University">
 </p>
-## 🔎 **Features**
 
-- Setup Virtual Machine
-- Installing Ubuntu Server
-- Editing Netplan Configure
-- Setting Hostname
-- Clonig A Virtual Machine
-- Port Forwarding
-- Setup VM-1 to web server and VM-2 to db server
-- Install postgresql for db server
-- Configure postgresql
-- Install nginx for web server
-- Configure nginx
-- Install Node.js and npm
+## 🔎 **Documentation**
+
+- [Prerequisites](#-prerequisites)
+- [Virtual Macine](#%EF%B8%8F-setting-up-the-virtual-machine)
+  - [Installing Ubuntu Server](#%EF%B8%8F-installing-ubuntu-server)
+  - [Post-Installation (Optional)](#-post-installation-optional)
+  - [Editing Netplan Configuration](#-editing-netplan-configuration)
+  - [Setting Hostname with hostnamectl](#-setting-hostname-with-hostnamectl)
+  - [Cloning a Virtual Machine with VirtualBox](#%EF%B8%8F%EF%B8%8F%EF%B8%8F-cloning-a-virtual-machine-with-virtualbox)
+  - [Configure VM](#-configure-vm)
+  - [Port Forwarding with NAT Network in VirtualBox](#%EF%B8%8F-port-forwarding-with-nat-network-in-virtualbox)
+  - [Install And Configure PostgreSQL in VM 2 db-server](#-install-and-configure-postgresql-in-vm-2-db-server)
+  - [Enable The Connection PostgreSQL To Remote Server](#%EF%B8%8F%EF%B8%8F%EF%B8%8F-enable-the-connection-postgresql-to-remote-server)
+  - [Adding Rules Port Forwarding For PostgreSQL](#%EF%B8%8F-adding-rules-port-forwarding-for-postgresql)
+  - [Install NGINX in VM 1 web-server](#-install-nginx-in-vm-1-web-server)
+  - [Adding Rules Port Forwarding For NGINX](#%EF%B8%8F-adding-rules-port-forwarding-for-nginx)
+  - [Install Node.js and npm](#-install-nodejs-and-npm)
+  - [Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using Prisma](#-%EF%B8%8F-connect-vm-1-web-server-and-vm-2-db-server-using-prisma)
+  - [Run Next-Todos Project](#-run-next-todos-project)
+  - [Install JDK](#-install-jdk)
+  - [Creating First Java Project](#-creating-your-first-java-project)
+- [Docker]()
 
 ## 🛹 **Prerequisites**
 
@@ -677,15 +686,13 @@ server {
     listen 80;
     server_name 10.0.2.17;
 
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
-
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }
 }
 
@@ -759,7 +766,7 @@ For verfiy the installation, you can heck the installed Java version:
 java -version
 ```
 
-## 🧾🍵 **Creating Your First Java Project**
+## 🧾🍵 **Create First Java Project**
 
 #### 1. Create a Project Directory:
 
