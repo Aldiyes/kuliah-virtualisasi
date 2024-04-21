@@ -5,7 +5,6 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
 <p align="center">
   <img src="https://belajar.usd.ac.id/pluginfile.php/1/theme_moove/logo/1705975785/logo_usd.png" alt="Sanata Dharma University">
 </p>
-
 ## 🔎 **Features**
 
 - Setup Virtual Machine
@@ -19,6 +18,7 @@ Iam student from [Sanata Dharma University](https://www.usd.ac.id/) with ID [205
 - Configure postgresql
 - Install nginx for web server
 - Configure nginx
+- Install Node.js and npm
 
 ## 🛹 **Prerequisites**
 
@@ -394,28 +394,30 @@ CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE IN
 \du
 ```
 
-##### 5. Create database
-
-```mysql
-CREATE DATABASE <database_name>;
-```
-
-example:
+##### 5. Create database called next_todos_pgdb
 
 ```mysql
 CREATE DATABASE next_todos_pgdb;
 ```
 
-##### 6. Grant privileges for user `iyesss`
+##### 6. Grant privileges for user `iyesss` to `next_todos_pgdb`
+
+- Navigate inside next_todos_pgdb:
 
 ```mysql
-GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <user_name>;
+\c next_todos_pgdb
 ```
 
-example:
+- Grant privileges on database:
 
 ```mysql
 GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss;
+```
+
+- Grant privileges for schema public:
+
+```mysql
+GRANT ALL ON SCHEMA public TO iyesss;
 ```
 
 ##### 7. Exit from postgres and login via `iyesss`
@@ -497,6 +499,14 @@ After make some changes inside pg_hba configure and postgres configure, you need
 sudo systemctl restart postgresql
 ```
 
+## ⚙️🛜🏬 **Adding Rules Port Forwarding For PostgreSQL**
+
+| Name   | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------ | -------- | ------- | --------- | ----------- | ---------- |
+| WEB    | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB     | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| `PGDB` | `TCP`    |         | `5432`    | `10.0.2.11` | `5432`     |
+
 ## 📱 **Install NGINX in VM 1 `web-server`**
 
 #### **_Installation_**
@@ -534,6 +544,15 @@ curl localhost
 ```
 
 If NGINX is running and configured to use the default port 80, then curl localhost should return the default NGINX welcome page, indicating successful verification
+
+## ⚙️🛜📱 **Adding Rules Port Forwarding For NGINX**
+
+| Name    | Protocol | Host IP | Host Port | Guest IP    | Guest Port |
+| ------- | -------- | ------- | --------- | ----------- | ---------- |
+| WEB     | TCP      |         | 2222      | 10.0.2.17   | 22         |
+| DB      | TCP      |         | 2224      | 10.0.2.11   | 22         |
+| PGDB    | TCP      |         | 5432      | 10.0.2.11   | 5432       |
+| `NGINX` | `TCP`    |         | `3000`    | `10.0.2.17` | `80`       |
 
 ## 👽 **Install Node.js and npm**
 
@@ -587,3 +606,129 @@ sudo npm install -g npm@latest
 ```
 
 After that, check one more time your npm version
+
+## 🏬 ↔️📱 **Connect VM-1 (WEB-Server) and VM-2 (DB-Server) using [Prisma](https://www.prisma.io/docs/getting-started/quickstart)**
+
+This guide outlines how to establish a connection between VM-1, acting as your `web server`, and VM-2, hosting your `db server`, using Prisma. For `web server`, we use existing project from this [repostory](https://github.com/aldiyespaskalisbirta/next-todos) for NextJs project. **Make sure both of VM is running/start**.
+
+#### **On VM-1 (`WEB-Server`)**
+
+#### 1. Install PM2 Globally:
+
+```shell
+sudo npm install pm2@latest -g
+```
+
+#### 2. Use Git to Fetch Next.js Project from [GitHub](https://github.com/):
+
+```shell
+git clone https://github.com/aldiyespaskalisbirta/next-todos.git
+```
+
+#### 3. Copy .env-example into .env and install package list for NextJs project:
+
+```shell
+cd next-todos
+cp .env.example .env
+npm install
+```
+
+#### 4. Configure .env file:
+
+```shell
+sudo nano .env
+```
+
+For details on next-todos project, please visit the [Documentation](https://github.com/aldiyespaskalisbirta/next-todos) for Step-by-Step Guide.
+
+#### 5. Generate And Migrate Shema Prisma:
+
+```shell
+npx prisma generate
+npx prisma migrate dev
+```
+
+#### 6. Run Next.js Project with PM2 and Serve with NGINX:
+
+```shell
+npm run build
+pm2 start npm --name "next_todos_app" -- start
+```
+
+#### 7. Configure PM2 to Start Automatically:
+
+```shell
+pm2 save
+pm2 startup
+```
+
+#### 8. Configure Nginx to Serve the Next.js Application:
+
+- Create Nginx Configuration File:
+
+```shell
+sudo nano /etc/nginx/sites-available/next_todos
+```
+
+- Configure Nginx:
+
+```shell
+server {
+    listen 80;
+    server_name 10.0.2.17;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+    }
+}
+
+```
+
+- Create a Symbolic Link to Enable the Configuration:
+
+```shell
+sudo ln -s /etc/nginx/sites-available/nextjs-app /etc/nginx/sites-enabled/
+```
+
+- Change Nginx Configure for default file:
+
+```shell
+sudo nano /etc/nginx/sites-available/default
+```
+
+replace `listen` port `80` to other port configure (e.g., 123). After that save and exit.
+
+- Test Nginx Configuration:
+
+```shell
+sudo nginx -t
+```
+
+- Restart Nginx to Apply Changes:
+
+```shell
+sudo systemctl restart nginx
+```
+
+## ⚡ **Run Next-Todos Project**
+
+#### 1. Navigate to next-todos folder
+
+```shell
+cd next-todos
+```
+
+#### 2. Run the project:
+
+```shell
+npm run dev
+```
+
+#### 3. Open browser and search for `localhost:3000`

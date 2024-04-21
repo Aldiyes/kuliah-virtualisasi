@@ -133,11 +133,21 @@
 			"jalankan perintah 'CREATE ROLE iyesss PASSWORD 'aldiyes17032002' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;'",
 			"cek apakah user sudah berhasil dibuat dengan perintah '<back-slash>du'",
 			"buat database baru dengan perintah 'CREATE DATABASE next_todos_pgdb;'",
+			"masuk kedalam database next_todos_pgdb dengan perintah '<back-slash>c next_todos_pgdb'",
 			"berikan hak istimewah kepada user iyesss agar bisa mengakses database next_todos_pgdb",
 			"jalankan perintah 'GRANT ALL PRIVILEGES ON DATABASE next_todos_pgdb TO iyesss'",
+			"berikan hak istimewah kepada user iyesss agar bisa mengakses schema public",
+			"jalankan perintah 'GRANT ALL ON SCHEMA public TO iyesss'",
 			"keluar dari postgresql dengan perintah '<back-slash>q'",
 			"jalankan perintah 'psql -h localhost -U iyesss -p 5432 -d next_todos_pgdb' untuk mengakses database next_todos_pgdb dengan menggunakan user iyesss"
-		]
+		],
+		"tambahkan-rule-port-forwarding-untuk-postgresql": {
+			"buka-virtualbox-network-manager": "pada bagian Tools, click kanan dan pilih tools, kemudian pilih Network Manager",
+			"membuat-nat-network-baru": "Pilih NAT Network dan click Create pada bagian atas. Itu akan membuat konfigurasi NAT Network baru",
+			"membuat-roles-untuk-port-forwarding": [
+				"buat name untuk PGDB dengan host port 5432 dan guest port 5432, dan masukkan ip address VM-2 (db-server) pada Guest IP"
+			]
+		}
 	},
 	"memberikan-hak-akses-pada-postgresql-agar-dapat-diakses-secara-remote": {
 		"pg_hba.cong": [
@@ -164,7 +174,14 @@
 			"jalankan NGINX dengan perintah 'sudo systemctl start NGINX'",
 			"aktifkan NGINX pada saat booting degan perintah 'sudo systemctl enable NGINX'",
 			"cek apakah NGINX sudah berjalan dengan perintah 'curl localhost'"
-		]
+		],
+		"tambahkan-rule-port-forwarding-untuk-nginx": {
+			"buka-virtualbox-network-manager": "pada bagian Tools, click kanan dan pilih tools, kemudian pilih Network Manager",
+			"membuat-nat-network-baru": "Pilih NAT Network dan click Create pada bagian atas. Itu akan membuat konfigurasi NAT Network baru",
+			"membuat-roles-untuk-port-forwarding": [
+				"buat name untuk PGDB dengan host port 5432 dan guest port 5432, dan masukkan ip address VM-2 (db-server) pada Guest IP"
+			]
+		}
 	},
 	"install-node.js-dan-npm-pada-VM-1-WEB-SERVER": {
 		"installation-step": {
@@ -177,5 +194,28 @@
 			"untuk mengecek Node.js version, jalankan perintah 'node --version'",
 			"untuk mengecek npm version, jalankan perintah 'npm --version'"
 		]
-	}
+	},
+	"sambungkan-VM-1-(WEB-Server)-dan-VM-2-(DB-Server)-menggunakan-prisma": [
+		"pada VM-1 (WEB-Server) install pm2 secara global dengan perintah 'sudo npm install pm2@latest -g'",
+		"clone git repository 'git clone https://github.com/aldiyespaskalisbirta/next-todos.git'",
+		"masuk kedalam folder git yang telah di clone dengan perintah 'cd next-todos'",
+		"copy .env-example dengan menggunakan perintah 'cp .env.example .env'",
+		"install package dengan menjalankan perintah 'npm install'",
+		"konfigurasi .env file dengan menjalankan perintah 'sudo nano .env' dan isi variable sesuai dengan ketentuan",
+		"generate dan migrate shchema prisma kedalam database next_todos_pgdb",
+		"jalankan perintah 'npx prisma generate & npx prisma migrate dev'",
+		"jalankan NextJs project dengan menggunakan PM2 dan diterima menggunakan NGINX",
+		"jalankan perintah 'npm run build' kemudian 'pm2 start npm --name 'next_todos_app' -- start'",
+		"konfigurasi PM2 untuk jalan secara otomatis dengan perintah 'pm2 save' kemudian 'pm2 startup'",
+		"konfigurasi NGINX",
+		"buat file baru didalam /etc/nginx/sites-available dengan perintah 'sudo nano /etc/nginx/sites-available/next_todos'",
+		"konfigurasi server pada nginx",
+		"buat symbolic link untuk mengaktifkan konfigurasi",
+		"jalankan perintah sudo ln -s /etc/nginx/sites-available/nextjs-app /etc/nginx/sites-enabled/",
+		"ganti listen port pada file nginx default agar tidak menangkap port 80",
+		"test konfigurasi nginx degan perintah 'sudo nginx -t'",
+		"jika berhasil, restart nginx dengan peritnah 'sudo systemctl restart nginx'",
+		"tambahkan rule pada port forwarding VirtualBox dengan guest_ip 10.0.2.17 (web-server) host_port 3000 dan guest_port 80",
+		"jalankan next_todos project dengan perintah npm run dev"
+	]
 }
