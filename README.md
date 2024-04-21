@@ -732,3 +732,29 @@ npm run dev
 ```
 
 #### 3. Open browser and search for `localhost:3000`
+
+## 🍵 **Install JDK**
+
+This is the recommended method for most users as it leverages the pre-packaged OpenJDK available through Ubuntu's repositories. OpenJDK is a free and open-source implementation of the Java platform.
+
+#### **_Instalation_**
+
+#### 1. Update package lists:
+
+```shell
+sudo apt update
+```
+
+#### 2. Install the default JDK:
+
+```shell
+sudo apt install default-jdk
+```
+
+#### **_Verification_**
+
+For verfiy the installation, you can heck the installed Java version:
+
+```shell
+java -version
+```

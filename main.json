@@ -217,5 +217,18 @@
 		"jika berhasil, restart nginx dengan peritnah 'sudo systemctl restart nginx'",
 		"tambahkan rule pada port forwarding VirtualBox dengan guest_ip 10.0.2.17 (web-server) host_port 3000 dan guest_port 80",
 		"jalankan next_todos project dengan perintah npm run dev"
-	]
+	], 
+	"Install-Java-Development-Kit": {
+		"Installasi": {
+
+			"Update-package-lists": "sudo apt update",
+			"Install-default-JDK": "sudo apt install default-jdk"
+		},
+		"Verfifikasi": [
+			"untuk-memferivikasi apakah jdk sudah berhasil di install dapat dilakukan dengan cara mengecek versi dari jdk", 
+			"jalankan perintah 'java -version'"
+		]
+
+		
+	}
 }
